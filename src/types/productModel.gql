@@ -1,0 +1,58 @@
+type ProductModel {
+  id: ID!
+  productId: ID!
+  name: Translation
+  description: Translation
+  origin: String
+  price: UnitPrice
+  imageUrl: String
+  isVisible: Boolean!
+  preferences: ProductModelPreferences!
+}
+
+type ProductModelPreferences {
+  isDiscounted: Boolean
+  isBio: Boolean
+  isNew: Boolean
+}
+
+input ProductModelInput {
+  id: ID
+  productId: ID!
+  name: TranslationInput!
+  description: TranslationInput
+  origin: String
+  price: UnitPriceInput
+  image: Upload
+  isVisible: Boolean!
+  preferences: ProductModelPreferencesInput!
+  newImage: Upload
+}
+
+input ProductModelPreferencesInput {
+  isDiscounted: Boolean
+  isBio: Boolean
+  isNew: Boolean
+}
+
+extend type Query {
+  getProductModels(productId: ID, includeHidden: Boolean): [ProductModel]!
+  # Returns the details of a list of product models
+  getProductModelsDetails(modelsIds: [ID!]): [ProductModel]!
+  getProductModelDetails(modelId: ID!): ProductModel
+}
+
+extend type Mutation {
+  setProductModel(model: ProductModelInput!): ID!
+  setProductModelField (
+      id: ID!
+      productId: ID
+      name: TranslationInput
+      description: TranslationInput
+      origin: String
+      price: UnitPriceInput
+      image: Upload
+      isVisible: Boolean
+      preferences: ProductModelPreferencesInput
+  ): Boolean!
+}

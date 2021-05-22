@@ -1,0 +1,44 @@
+enum Permissions {
+  ADMIN
+}
+
+type User {
+  id: ID!
+  name: String!
+  surname: String!
+  language: LanguageCode
+  email: String
+  password: String
+  countryCode: Int
+  phoneNumber: String
+  address: Address
+  permissions: Permissions
+}
+
+enum LanguageCode {
+  IT
+  DE
+}
+
+extend type Query {
+  getUser(userId: ID!): User # NOTE: only admins can get users which are different from their ID
+  getUsers: [User] # NOTE: only admins should be able to retrieve the list of users
+  getCurrentUser: User # Returns null if the user is not logged-in
+  existsUser(countryCode: Int!, phone: String!): Boolean!
+}
+
+extend type Mutation {
+  registerUser(countryCode: Int!, phone: String!, language: LanguageCode!): User!
+  registerAdmin(email: String!, password: String!, name: String!, surname: String, language: LanguageCode!): Boolean!
+  sendUserVerificationToken(countryCode: Int!, phone: String!): Boolean!
+  loginUser(countryCode: Int!, phone: String!, token: String!): User!
+  loginAdmin(email: String!, password: String!): User!
+  setUserData(
+    userId: ID!
+    name: String!
+    surname: String!
+    language: LanguageCode
+    address: AddressInput!
+  ): Boolean!
+  logout:Boolean
+}

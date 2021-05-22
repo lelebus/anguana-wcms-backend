@@ -1,0 +1,44 @@
+type PlatformPrefs {
+  deliveryStartTime: Time!
+  deliveryEndTime: Time!
+  deliveryDays: WeekdaysListPref!
+  "Slot duration in minutes"
+  deliverySlotsDuration: Int!
+  "Number of orders to consider a slot full"
+  ordersPerSlot: Int!
+}
+
+type WeekdaysListPref {
+  monday: Boolean
+  tuesday: Boolean
+  wednesday: Boolean
+  thursday: Boolean
+  friday: Boolean
+  saturday: Boolean
+  sunday: Boolean
+}
+
+input PlatformPrefsInput {
+  deliveryStartTime: TimeInput!
+  deliveryEndTime: TimeInput!
+  deliveryDays: WeekdaysListPrefInput!
+}
+
+input WeekdaysListPrefInput {
+  monday: Boolean
+  tuesday: Boolean
+  wednesday: Boolean
+  thursday: Boolean
+  friday: Boolean
+  saturday: Boolean
+  sunday: Boolean
+}
+
+extend type Query {
+  # TODO: change into getDeliveryPrefs?
+  getPlatformPrefs: PlatformPrefs!
+}
+
+extend type Mutation {
+  setPlatformPrefs(prefs: PlatformPrefsInput!): Boolean!
+}

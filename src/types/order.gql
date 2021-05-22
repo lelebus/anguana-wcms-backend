@@ -1,0 +1,61 @@
+type Order {
+  id: ID!
+  byUser: ID!
+  measuredPrice: Float
+  submissionDate: Date!
+  products: [ProductOrder]!
+  notes: String
+  status: OrderStatus!
+  timeSlot: TimeSlot!
+  prepared: Boolean
+  shipped: Boolean
+  delivered: Boolean
+  paid: Boolean
+}
+
+input OrderInput {
+  id: ID!
+  byUser: ID!
+  measuredPrice: Float
+  products: [ProductOrderInput]!
+  timeSlot: TimeSlotInput!
+  prepared: Boolean
+  shipped: Boolean
+  delivered: Boolean
+  paid: Boolean
+}
+
+enum OrderStatus {
+  "Order has been inserted"
+  SUBMITTED
+  REFUSED
+  PREPARED
+  SHIPPED
+  DELIVERED
+  CLOSED
+}
+
+type ProductOrder {
+  productId: ID!
+  quantity: Float!
+  measuredPrice: Float
+}
+
+input ProductOrderInput {
+  productId: ID!
+  quantity: Float!
+  measuredPrice: Float
+}
+
+extend type Query {
+  getOrder(orderId: ID!): Order 
+  getOrders: [Order]
+  getUserOrders(userId: ID!): [Order]
+  getBookedTimeSlots(days: [DayInput]!): [TimeSlot]
+}
+
+extend type Mutation {
+  setOrder(order: OrderInput!): OrderStatus # Sets the data of an order and updates its status. The status must be automatically update by the backend according to order's variables status.
+  declineOrder(orderId: ID!): OrderStatus
+  addOrder(products: [ProductOrderInput]!, timeSlot: TimeSlotInput!, notes: String): Order
+}

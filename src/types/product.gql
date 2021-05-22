@@ -1,0 +1,44 @@
+type Product {
+  id: ID!
+  name: Translation!
+  description: Translation
+  avgPrice: UnitPrice
+  type: ProductType!
+  imageUrl: String
+  isVisible: Boolean!
+}
+
+input ProductInput {
+  id: ID
+  name: TranslationInput!
+  description: TranslationInput
+  avgPrice: UnitPriceInput
+  type: ProductType!
+  image: Upload
+  isVisible: Boolean!
+}
+
+enum ProductType {
+  FRUIT
+  VEGETABLE
+  BOX
+  OTHER
+}
+
+extend type Query {
+  getProduct(productId: ID!): Product
+  getProducts(type: ProductType, includeHidden: Boolean): [Product]!
+}
+
+extend type Mutation {
+  setProduct(product: ProductInput!): ID!
+  setProductField(
+    id: ID!
+    name: TranslationInput
+    description: TranslationInput
+    avgPrice: UnitPriceInput
+    type: ProductType
+    image: Upload
+    isVisible: Boolean
+  ): Boolean!
+}
