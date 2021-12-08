@@ -12,6 +12,7 @@ type Product {
   producer: Producer!
   size: Float!
   price: Float!
+  storage: String
   collections: [String]!
   isVisible: Boolean!
 }
@@ -23,7 +24,7 @@ input ProductInput {
   producer: Producer!
   size: Float!
   price: Float!
-  collections: [String]!
+  storage: String
   isVisible: Boolean!
 }
 
