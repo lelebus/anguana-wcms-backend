@@ -16,6 +16,12 @@ type Filter {
   value: String!
 }
 
+input FilterInput {
+  key: String!
+  operator: String!
+  value: String!
+}
+
 type Collection {
   id: ID!
   parent: ID
@@ -30,7 +36,7 @@ input CollectionInput {
   parent: ID
   type: CollectionType!
   title: String!
-  conditions: [Filter]
+  conditions: [FilterInput]
   groupBy: GroupByOption!
   position: Int
 }

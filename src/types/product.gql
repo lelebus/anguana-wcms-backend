@@ -23,7 +23,7 @@ input ProductInput {
   name: String!
   details: String!
   year: Int!
-  producer: Producer!
+  producer: ProducerInput!
   size: Float!
   price: Float!
   storage: String

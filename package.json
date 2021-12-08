@@ -4,6 +4,7 @@
   "description": "Apollo GraphQL backend for Trettl eShop application",
   "main": "index.js",
   "scripts": {
+    "dev": "NODE_ENV=dev node src/index.js",
     "start": "node src/index.js",
     "test": "jest",
     "commit": "cz",

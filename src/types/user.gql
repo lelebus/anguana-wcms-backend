@@ -11,7 +11,6 @@ type User {
   password: String
   countryCode: Int
   phoneNumber: String
-  address: Address
   permissions: Permissions
 }
 
@@ -38,7 +37,6 @@ extend type Mutation {
     name: String!
     surname: String!
     language: LanguageCode
-    address: AddressInput!
   ): Boolean!
   logout:Boolean
 }
