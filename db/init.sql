@@ -19,7 +19,6 @@ $$ language 'plpgsql';
 CREATE TABLE IF NOT EXISTS users (
     id char(32) NOT NULL PRIMARY KEY default get_random_string(32),
     role varchar,
-    language text NOT NULL,
     email text UNIQUE,
     phone text UNIQUE,
     password text,
@@ -27,45 +26,46 @@ CREATE TABLE IF NOT EXISTS users (
     resetcount int NOT NULL DEFAULT 0
 );
 
+CREATE TYPE collection_type_enum AS ENUM ('automatic', 'manual');
+CREATE TYPE groupby_enum AS ENUM ('producer', 'territory', 'region', 'country');
+
+CREATE SEQUENCE position_sequence START 1;
+
+CREATE TABLE IF NOT EXISTS collections (
+    id char(32) NOT NULL PRIMARY KEY default get_random_string(32),
+    parent char(32) REFERENCES collections(id),
+    title text NOT NULL,
+    collection_type collection_type_enum,
+    conditions json,
+    groupby groupby_enum,
+    position int
+);
+
+CREATE TABLE IF NOT EXISTS territories (
+    id char(32) NOT NULL PRIMARY KEY default get_random_string(32),
+    country text NOT NULL,
+    region text,
+    territory text,
+    UNIQUE (country, region, territory)
+);
+
+CREATE TABLE IF NOT EXISTS producers (
+    id char(32) NOT NULL PRIMARY KEY default get_random_string(32),
+    title text NOT NULL,
+    territory char(32) REFERENCES territories(id)
+);
+
 CREATE TABLE IF NOT EXISTS products (
     id char(32) NOT NULL PRIMARY KEY default get_random_string(32),
-    parent char(32) REFERENCES products(id),
     details json NOT NULL,
-    imageUrl text,
-    public boolean NOT NULL DEFAULT false
+    producer char(32) REFERENCES producers(id),
+    public boolean NOT NULL DEFAULT true
 );
 
-CREATE TABLE IF NOT EXISTS orders (
-    id char(32) NOT NULL PRIMARY KEY default get_random_string(32),
-    customer char(32) NOT NULL REFERENCES users(id),
-    deliveryDate date,
-    deliverySlot json,
-    notes text,
-    price float,
-    createdBy char(32) NOT NULL REFERENCES users(id),
-    createdOn timestamp NOT NULL default CURRENT_TIMESTAMP,
-    status json NOT NULL,
-    last_updated timestamp NOT NULL
+CREATE TABLE IF NOT EXISTS product_collection (
+  product char(32) REFERENCES products(id),
+  collection char(32) REFERENCES collections(id),
+  collection_title text NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS order_details (
-  order_id char(32) NOT NULL REFERENCES orders(id),
-  product char(32) NOT NULL REFERENCES products(id),
-  quantity float NOT NULL,
-  price float
-);
-
-INSERT INTO users (email, password, role, details) VALUES ('tester@email.com', '$2a$10$Gbqbh3ncP66OAm.0DYPyRO94nIUBWE.ABOUUh.ivYbSJezutwycOS', 'ADMIN', '{"name":"Tester", "surname":"Admin"}'); -- password: password
-INSERT INTO users (email, password, role, details) VALUES ('h.trettl@endian.com', '$2a$10$Gbqbh3ncP66OAm.0DYPyRO94nIUBWE.ABOUUh.ivYbSJezutwycOS', 'ADMIN', '{"name":"Harry", "surname":"Trettl"}'); -- password: password
-
-CREATE TABLE IF NOT EXISTS settings (
-    key text NOT NULL PRIMARY KEY,
-    value json NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS notifications (
-    key text NOT NULL,
-    language text NOT NULL,
-    text text NOT NULL,
-    UNIQUE (key, language)
-);
+INSERT INTO users (email, password, role, details) VALUES ('admin@test.com', '$2a$10$Gbqbh3ncP66OAm.0DYPyRO94nIUBWE.ABOUUh.ivYbSJezutwycOS', 'ADMIN', '{"name":"Admin", "surname":"Test"}'); -- password: password

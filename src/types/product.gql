@@ -1,44 +1,39 @@
+enum ProductType {
+  RED_WINE
+  WHITE_WINE
+  SPARKLING_WINE
+}
+
 type Product {
   id: ID!
-  name: Translation!
-  description: Translation
-  avgPrice: UnitPrice
   type: ProductType!
-  imageUrl: String
+  name: String!
+  details: String!
+  producer: Producer!
+  size: Float!
+  price: Float!
+  collections: [String]!
   isVisible: Boolean!
 }
 
 input ProductInput {
-  id: ID
-  name: TranslationInput!
-  description: TranslationInput
-  avgPrice: UnitPriceInput
   type: ProductType!
-  image: Upload
+  name: String!
+  details: String!
+  producer: Producer!
+  size: Float!
+  price: Float!
+  collections: [String]!
   isVisible: Boolean!
 }
 
-enum ProductType {
-  FRUIT
-  VEGETABLE
-  BOX
-  OTHER
-}
-
 extend type Query {
-  getProduct(productId: ID!): Product
-  getProducts(type: ProductType, includeHidden: Boolean): [Product]!
+  getProduct(id: ID!): Product
+  getProducts(type: ProductType, includeHidden: Boolean): [Product]
+  getProductsByCollection(collectionId: ID!): [Product]
+  searchProduct(search: String!): [Product]
 }
 
 extend type Mutation {
-  setProduct(product: ProductInput!): ID!
-  setProductField(
-    id: ID!
-    name: TranslationInput
-    description: TranslationInput
-    avgPrice: UnitPriceInput
-    type: ProductType
-    image: Upload
-    isVisible: Boolean
-  ): Boolean!
+  setProduct(id: ID, data: ProductInput!): Product!
 }

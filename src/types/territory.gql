@@ -1,0 +1,21 @@
+type Territory {
+  id: ID!
+  territory: String
+  region: String
+  country: String!
+}
+
+input TerritoryInput {
+  territory: String
+  region: String
+  country: String!
+}
+
+extend type Query {
+  getTerritories: [Territory]!
+  searchTerritory(search: String!): [Territory]
+}
+
+extend type Mutation {
+  setTerritory(id: ID, data: TerritoryInput!): Territory!
+}

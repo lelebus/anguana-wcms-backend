@@ -1,0 +1,45 @@
+enum CollectionType {
+  AUTOMATIC
+  MANUAL
+}
+
+enum GroupByOption {
+  PRODUCER
+  TERRITORY
+  REGION
+  COUNTRY
+}
+
+type Filter {
+  key: String!
+  operator: String!
+  value: String!
+}
+
+type Collection {
+  id: ID!
+  parent: ID
+  type: CollectionType!
+  title: String!
+  conditions: [Filter]
+  groupBy: GroupByOption!
+  position: Int!
+}
+
+input CollectionInput {
+  parent: ID
+  type: CollectionType!
+  title: String!
+  conditions: [Filter]
+  groupBy: GroupByOption!
+  position: Int
+}
+
+extend type Query {
+  getCollection(id: ID!): Collection!
+  getCollections: [Collection]! #ordered
+}
+
+extend type Mutation {
+  setCollection(id: ID, data: CollectionInput!): Collection!
+}

@@ -1,9 +1,0 @@
-type Translation {
-  it: String
-  de: String
-}
-
-input TranslationInput {
-  it: String
-  de: String
-}

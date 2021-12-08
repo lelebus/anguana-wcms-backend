@@ -1,0 +1,21 @@
+type Producer {
+  id: ID!
+  title: String!
+  territory: ID!
+}
+
+input ProducerInput {
+  title: String!
+  territory: ID!
+}
+
+extend type Query {
+  getProducer(id: ID!): Producer!
+  getProducers: [Producer]!
+  getProducersByTerritory(territoryId: ID!): [Producer]!
+  searchProducer(search: String!): [Producer]
+}
+
+extend type Mutation {
+  setProducer(id: ID, data: ProducerInput!): Producer!
+}
