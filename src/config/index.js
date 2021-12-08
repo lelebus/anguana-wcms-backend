@@ -18,10 +18,5 @@ module.exports = {
     s3: {
         accessKeyId: process.env.S3_ID,
         secretAccessKey: process.env.S3_SECRET
-    },
-    twilio: {
-        accountSid: process.env.TWILIO_ID,
-        authToken: process.env.TWILIO_AUTH,
-        phone: process.env.TWILIO_PHONE
     }
 }
