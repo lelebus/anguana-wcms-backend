@@ -1,7 +1,7 @@
 {
-  "name": "trettl-backend",
+  "name": "anguana-wcms-backend",
   "version": "2.0.1",
-  "description": "Apollo GraphQL backend for Trettl eShop application",
+  "description": "Apollo GraphQL backend for Wine Cellar Management System",
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=dev node src/index.js",
