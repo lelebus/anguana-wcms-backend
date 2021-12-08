@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS users (
     resetcount int NOT NULL DEFAULT 0
 );
 
-CREATE TYPE collection_type_enum AS ENUM ('automatic', 'manual');
-CREATE TYPE groupby_enum AS ENUM ('producer', 'territory', 'region', 'country');
+CREATE TYPE collection_type_enum AS ENUM ('AUTOMATIC', 'MANUAL');
+CREATE TYPE groupby_enum AS ENUM ('PRODUCER', 'TERRITORY', 'REGION', 'COUNTRY');
 
 CREATE SEQUENCE position_sequence START 1;
 
