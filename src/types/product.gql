@@ -9,6 +9,7 @@ type Product {
   type: ProductType!
   name: String!
   details: String!
+  year: Int!
   producer: Producer!
   size: Float!
   price: Float!
@@ -21,6 +22,7 @@ input ProductInput {
   type: ProductType!
   name: String!
   details: String!
+  year: Int!
   producer: Producer!
   size: Float!
   price: Float!
